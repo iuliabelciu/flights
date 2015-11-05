@@ -27,10 +27,11 @@ public class RegisterServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-	 response.setContentType("text/html;charset=UTF-8");
-	 PrintWriter out = response.getWriter();
-		String id = null;
+	 
+	 
+		String id = null, action = null;
 		id = request.getParameter("id");
+		action = id==""?"add":"update";
 		String airplaneType = request.getParameter("airplane_type");
 		String departureCity = request.getParameter("departure_city");
 		String departureTime = request.getParameter("departure_time");
@@ -38,7 +39,10 @@ public class RegisterServlet extends HttpServlet {
 		String arrivalTime = request.getParameter("arrival_time");
 		Date departureDate = null;
 		Date arrivalDate = null; 
-		Flight flight = new Flight();
+		if((arrivalCity=="")&&(departureTime=="")&&(departureCity=="")&&(arrivalTime=="")&&(airplaneType==""))
+			action="delete";
+		Flight flight = new Flight();	
+		if(!action.equals("delete")){
 			departureTime = departureTime.replace("T", " ");
 			arrivalTime = arrivalTime.replace("T", " ");		
 			DateFormat formatter; 
@@ -50,36 +54,28 @@ public class RegisterServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-				
-			flight.setId(Integer.parseInt(id));
+			if(action.equals("add"))
+				flight.setId(1);
+			else
+				flight.setId(Integer.parseInt(id));
 			flight.setAirplaneType(airplaneType);
 			flight.setArrivalCity(arrivalCity);
 			flight.setDepartureCity(departureCity);
 			flight.setArrivalDateHour(arrivalDate);
 			flight.setDepartureDateHour(departureDate);		
+		}
 		
-	 try {	
-		 RegisterService registerService = new RegisterService();
-		 boolean result = registerService.register(flight);		
-		 out.println("<html>");
-		 out.println("<head>");		
-		 out.println("<title>Registration Successful</title>");		
-		 out.println("</head>");
-		 out.println("<body>");
-		 out.println("<center>");
-		 if(result){
-			 out.println("<h1>Thanks for Registering with us :</h1>");
-			 out.println("To login with new Username and Password<a href=login.jsp>Click here</a>");
-		 }else{
-			 out.println("<h1>Registration Failed</h1>");
-			 out.println("To try again<a href=register.jsp>Click here</a>");
-		 }
-		 out.println("</center>");
-		 out.println("</body>");
-		 out.println("</html>");
-	 } finally {		
-		 out.close();
-	 }
-}
+		RegisterService registerService = new RegisterService();
+		boolean result;
+		if(action.equals("add"))
+			result = registerService.saveFlight(flight);		
+		else if(action.equals("update"))
+			result = registerService.updateFlight(flight);		
+		else if(action.equals("delete"))
+			result = registerService.deleteFlight(Integer.parseInt(id));		
+				 
+		response.sendRedirect("home.jsp");
+	
+	}
 
 }

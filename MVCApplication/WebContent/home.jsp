@@ -27,6 +27,7 @@
 		 <table>
 			 <thead>
 				 <tr>
+				 	 <th>ID</th>
 					 <th>Airplane</th>	
 					 <th>Departure</th>	
 					 <th>Arrival</th>	
@@ -41,6 +42,7 @@
 					 for (Flight f : list) {
 				 %>
 				 <tr>
+					 <td><%=f.getId()%></td>
 					 <td><%=f.getAirplaneType()%></td>
 					 <td><%=f.getDepartureCity()%></td>
 					 <td><%=f.getArrivalCity()%></td>	
@@ -52,5 +54,15 @@
 		 </table>		
 		 <br/>
 	 </div>
+	 
+<form action="RegisterServlet" method="POST">
+<p>ID: <input type="text" name="id" ></p>
+<p>Airplane type: <input type="text" name="airplane_type" ></p>
+<p>Departure city: <input type="text" name="departure_city" ></p>
+<p>Departure time: <input type="text" name="departure_time" ></p>
+<p>Arrival city: <input type="text" name="arrival_city" ></p>
+<p>Arrival time: <input type="text" name="arrival_time" ></p>
+<p><input type="submit" value="Submit"></p>
+</form>
 </body>
 </html>
