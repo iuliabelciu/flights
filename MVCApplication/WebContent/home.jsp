@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.List"%>
 <%@page import="com.service.AdminService"%>
 <%@page import="java.util.Date"%>
@@ -8,31 +9,45 @@
 <html>
 <head>
 	 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	 <link rel="stylesheet" type="text/css" href="css/style.css"/>
+	 <link rel="stylesheet"	href='<c:url value="/css/pure-0.4.2.css"/>'>
+	 <link rel="stylesheet"	href='<c:url value="/css/font-awesome-4.0.3/css/font-awesome.css"/>'>
+	 <link rel="stylesheet"	href='<c:url value="/css/jquery-ui-1.10.4.custom.css"/>'>
+	 <link rel="stylesheet"	href='<c:url value="/css/jquery.timepicker.css"/>'>
+	 <script src='<c:url value="/js/lib/jquery-1.10.2.js"/>'> </script>
+	 <script src='<c:url value="/js/lib/jquery-ui-1.10.4.custom.js"/>'> </script>
+	 <script src='<c:url value="/js/lib/jquery.ui.datepicker.js"/>'> </script>
+	 <script src='<c:url value="/js/lib/jquery.timepicker.js"/>'> </script>
+	 <script src='<c:url value="/js/flights.js"/>'> </script>	 
 	 <title>Result Page</title>	
 </head>
-<body>
+<body style="padding:2%;">
 	 <div>
-		 <h1>Result Page</h1>
-			 <b>This is Sample Result Page</b><br/>
+		 <h1>Admin Page</h1>
 			 <%=new Date()%>
 			 <%
 				 User user = (User) session.getAttribute("user");
 			 %>		
-			 <b>Welcome <%= user.getFirstName() + " " + user.getLastName()%></b>		
+			 <p>Welcome <%= user.getFirstName() + " " + user.getLastName()%>		
 			 <br/>
-			 <a href="logout.jsp">Logout</a>
-		
+			 <p><a href="logout.jsp">Logout</a>
+		<p>
+		<div id="flightDialog" style="display: none;">
+			<%@ include file="flightForm.jsp"%>
+		</div>
 
-		 <table>
+		<button class="pure-button pure-button-primary" onclick="addFlight()">
+			<i class="fa fa-plus"></i> Add Flight
+		</button>
+		<table class="pure-table pure-table-bordered pure-table-striped">
 			 <thead>
 				 <tr>
-				 	 <th>ID</th>
+				 	 
 					 <th>Airplane</th>	
 					 <th>Departure</th>	
 					 <th>Arrival</th>	
 					 <th>Dep. Date Hour</th>	
-					 <th>Arr. Date Hour</th>			
+					 <th>Arr. Date Hour</th>	
+					 <th>ID</th>		
 				 </tr>
 			 </thead>
 			 <tbody>
@@ -42,27 +57,23 @@
 					 for (Flight f : list) {
 				 %>
 				 <tr>
-					 <td><%=f.getId()%></td>
 					 <td><%=f.getAirplaneType()%></td>
 					 <td><%=f.getDepartureCity()%></td>
 					 <td><%=f.getArrivalCity()%></td>	
 					 <td><%=f.getDepartureDateHour()%></td>
-					 <td><%=f.getArrivalDateHour()%></td>				 
+					 <td><%=f.getArrivalDateHour()%></td>
+					 <td><form action="RegisterServlet" method="POST">
+					 <input type="hidden" name="id" value="<%=f.getId()%>">
+					 <input type="hidden" name="action" value="delete">
+					 <input type="submit" class="pure-button pure-button-primary " value="Delete">
+					 </form>
+					 </td>	
 				 </tr>
 				 <%}%>
 			 <tbody>
 		 </table>		
 		 <br/>
 	 </div>
-	 
-<form action="RegisterServlet" method="POST">
-<p>ID: <input type="text" name="id" ></p>
-<p>Airplane type: <input type="text" name="airplane_type" ></p>
-<p>Departure city: <input type="text" name="departure_city" ></p>
-<p>Departure time: <input type="text" name="departure_time" ></p>
-<p>Arrival city: <input type="text" name="arrival_city" ></p>
-<p>Arrival time: <input type="text" name="arrival_time" ></p>
-<p><input type="submit" value="Submit"></p>
-</form>
+	
 </body>
 </html>

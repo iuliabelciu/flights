@@ -89,4 +89,26 @@ public boolean deleteFlight(int id) {
 	 }	
 	 return true;
 }
+
+public Flight getFlightById(int id) {
+	 Session session = HibernateUtil.openSession();
+	 boolean result = false;
+	 Transaction tx = null;
+	 Flight f = new Flight();
+	 try{
+		 tx = session.getTransaction();
+		 tx.begin();
+		 Query query = session.createQuery("from Flight where id='"+id+"'");
+		 f = (Flight)query.uniqueResult();
+		 tx.commit();
+		 if(f!=null) result = true;
+	 }catch(Exception ex){
+		 if(tx!=null){
+			 tx.rollback();
+		 }
+	 }finally{
+		 session.close();
+	 }
+	 return f;
+}
 }

@@ -29,20 +29,24 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
 	 
 	 
-		String id = null, action = null;
-		id = request.getParameter("id");
-		action = id==""?"add":"update";
-		String airplaneType = request.getParameter("airplane_type");
-		String departureCity = request.getParameter("departure_city");
-		String departureTime = request.getParameter("departure_time");
-		String arrivalCity = request.getParameter("arrival_city");
-		String arrivalTime = request.getParameter("arrival_time");
-		Date departureDate = null;
-		Date arrivalDate = null; 
-		if((arrivalCity=="")&&(departureTime=="")&&(departureCity=="")&&(arrivalTime=="")&&(airplaneType==""))
-			action="delete";
-		Flight flight = new Flight();	
-		if(!action.equals("delete")){
+		String id = request.getParameter("id");
+		String action = request.getParameter("action");
+		RegisterService registerService = new RegisterService();
+		
+		if(action.equals("delete")){
+			registerService.deleteFlight(Integer.parseInt(id));		
+			response.sendRedirect("home.jsp");
+		}
+			else{
+			action = id==""?"add":"update";
+			String airplaneType = request.getParameter("airplane_type");
+			String departureCity = request.getParameter("departure_city");
+			String departureTime = request.getParameter("departure_time");
+			String arrivalCity = request.getParameter("arrival_city");
+			String arrivalTime = request.getParameter("arrival_time");
+			Date departureDate = null;
+			Date arrivalDate = null; 
+			Flight flight = new Flight();	
 			departureTime = departureTime.replace("T", " ");
 			arrivalTime = arrivalTime.replace("T", " ");		
 			DateFormat formatter; 
@@ -60,22 +64,27 @@ public class RegisterServlet extends HttpServlet {
 				flight.setId(Integer.parseInt(id));
 			flight.setAirplaneType(airplaneType);
 			flight.setArrivalCity(arrivalCity);
-			flight.setDepartureCity(departureCity);
+			flight.setDepartureCity(departureCity);			
 			flight.setArrivalDateHour(arrivalDate);
 			flight.setDepartureDateHour(departureDate);		
+			
+			if(action.equals("add"))
+				registerService.saveFlight(flight);		
+			else if(action.equals("update"))
+				registerService.updateFlight(flight);				 
+			response.sendRedirect("home.jsp");
 		}
-		
-		RegisterService registerService = new RegisterService();
-		boolean result;
-		if(action.equals("add"))
-			result = registerService.saveFlight(flight);		
-		else if(action.equals("update"))
-			result = registerService.updateFlight(flight);		
-		else if(action.equals("delete"))
-			result = registerService.deleteFlight(Integer.parseInt(id));		
-				 
-		response.sendRedirect("home.jsp");
-	
 	}
 
+	public void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+		System.out.println("o intrat in delete");
+	}
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+		
+		System.out.println("o intrat in get");
+	}
 }
