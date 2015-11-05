@@ -3,18 +3,24 @@ function addFlight() {
 	$('#flightDialog').dialog('open');
 }
 
-function editFlight(id) {
+function editFlight(id, airplane_type, departure_city, arrival_city, departure_time, arrival_time) {
+	$('#flightDialog').dialog("option", "title", 'Edit Flight');
+	$('#flightDialog').dialog('open');	
+	$('#id').val(id);
+	$('#airplane_type').val(airplane_type);
+	$('#arrival_city').val(arrival_city);
+	$('#departure_city').val(departure_city);
+	$('#departure_time').val(departure_time);
+	//$('#departure_hours').val(id);
+	$('#arrival_time').val(arrival_time);
+	//$('#arrival_hours').val(id);
+	initializeDatePicker();
+}
 
-	$.get("get/" + id, function(result) {
-
-		$("#bookDialog").html(result);
-
-		$('#bookDialog').dialog("option", "title", 'Edit Book');
-
-		$("#bookDialog").dialog('open');
-
-		initializeDatePicker();
-	});
+function deleteFlight(id){
+	$('#confirmDeleteDialog').dialog("option", "title", 'Delete Flight');
+	$('#confirmDeleteDialog').dialog('open');	
+	$('#idd').val(id);
 }
 
 function initializeDatePicker() {
@@ -51,6 +57,29 @@ $(document).ready(function() {
 		close : function() {
 
 			resetDialog($('#flightForm'));
+
+			$(this).dialog('close');
+		}
+	});
+
+	$('#confirmDeleteDialog').dialog({
+
+		autoOpen : false,
+		position : 'center',
+		modal : true,
+		resizable : false,
+		width : 600,
+		buttons : {
+			"Delete" : function() {
+				$('#confirmDelete').submit();
+			},
+			"Cancel" : function() {
+				$(this).dialog('close');
+			}
+		},
+		close : function() {
+
+			resetDialog($('#confirmDelete'));
 
 			$(this).dialog('close');
 		}

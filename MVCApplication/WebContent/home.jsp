@@ -17,28 +17,29 @@
 	 <script src='<c:url value="/js/lib/jquery-ui-1.10.4.custom.js"/>'> </script>
 	 <script src='<c:url value="/js/lib/jquery.ui.datepicker.js"/>'> </script>
 	 <script src='<c:url value="/js/lib/jquery.timepicker.js"/>'> </script>
-	 <script src='<c:url value="/js/flights.js"/>'> </script>	 
+	 <script src='<c:url value="/js/flights.js"/>'> </script>	
 	 <title>Result Page</title>	
 </head>
 <body style="padding:2%;">
-	 <div>
 		 <h1>Admin Page</h1>
 			 <%=new Date()%>
 			 <%
 				 User user = (User) session.getAttribute("user");
 			 %>		
-			 <p>Welcome <%= user.getFirstName() + " " + user.getLastName()%>		
-			 <br/>
-			 <p><a href="logout.jsp">Logout</a>
+			 <p>Welcome <%= user.getFirstName() + " " + user.getLastName()%>	
+			 
 		<p>
 		<div id="flightDialog" style="display: none;">
 			<%@ include file="flightForm.jsp"%>
+		</div>
+		<div id="confirmDeleteDialog" style="display: none;">
+			<%@ include file="confirmDelete.jsp"%>
 		</div>
 
 		<button class="pure-button pure-button-primary" onclick="addFlight()">
 			<i class="fa fa-plus"></i> Add Flight
 		</button>
-		<table class="pure-table pure-table-bordered pure-table-striped">
+		<table class="pure-table pure-table-bordered pure-table-striped" style="width:100%;">
 			 <thead>
 				 <tr>
 				 	 
@@ -62,18 +63,27 @@
 					 <td><%=f.getArrivalCity()%></td>	
 					 <td><%=f.getDepartureDateHour()%></td>
 					 <td><%=f.getArrivalDateHour()%></td>
-					 <td><form action="RegisterServlet" method="POST">
-					 <input type="hidden" name="id" value="<%=f.getId()%>">
-					 <input type="hidden" name="action" value="delete">
-					 <input type="submit" class="pure-button pure-button-primary " value="Delete">
-					 </form>
+					 <td>					 
+					 <button class="pure-button pure-button-primary" 
+					 		 onclick="editFlight(<%=f.getId()%>,
+					 							 '<%=f.getAirplaneType()%>',
+					 							 '<%=f.getDepartureCity()%>',
+					 							 '<%=f.getArrivalCity()%>',
+					 							 '<%=f.getDepartureDateHour()%>',
+					 							 '<%=f.getArrivalDateHour()%>'
+					 							 )">
+						<i class="fa fa-pencil"></i> Edit
+					 </button>
+					 			 
+					 <button class="pure-button pure-button-primary" 
+					 		 onclick="deleteFlight(<%=f.getId()%>)">
+						<i class="fa fa-cog"></i> Delete
+					 </button>
 					 </td>	
 				 </tr>
 				 <%}%>
 			 <tbody>
 		 </table>		
-		 <br/>
-	 </div>
-	
+		 <p><a href="logout.jsp" class="pure-button pure-button-primary" >Logout</a>
 </body>
 </html>
