@@ -13,6 +13,7 @@
 	 <link rel="stylesheet"	href='<c:url value="/css/font-awesome-4.0.3/css/font-awesome.css"/>'>
 	 <link rel="stylesheet"	href='<c:url value="/css/jquery-ui-1.10.4.custom.css"/>'>
 	 <link rel="stylesheet"	href='<c:url value="/css/jquery.timepicker.css"/>'>
+	 <link rel="stylesheet" type="text/css" href="css/flights.css" />
 	 <script src='<c:url value="/js/lib/jquery-1.10.2.js"/>'> </script>
 	 <script src='<c:url value="/js/lib/jquery-ui-1.10.4.custom.js"/>'> </script>
 	 <script src='<c:url value="/js/lib/jquery.ui.datepicker.js"/>'> </script>
@@ -20,13 +21,17 @@
 	 <script src='<c:url value="/js/flights.js"/>'> </script>	
 	 <title>Result Page</title>	
 </head>
-<body style="padding:2%;">
-		 <h1>Admin Page</h1>
-			 <%=new Date()%>
+<body>
+	<div id="page">	 
+			 
 			 <%
 				 User user = (User) session.getAttribute("user");
-			 %>		
-			 <p>Welcome <%= user.getFirstName() + " " + user.getLastName()%>	
+			 	%>
+			 <% if (user!=null) { %>
+			<h2>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h2>	
+			<% } else { %>
+			<% response.sendRedirect("http://localhost:8080/MVCApplication/login.jsp");%>
+			<% } %>	
 			 
 		<p>
 		<div id="flightDialog" style="display: none;">
@@ -36,19 +41,19 @@
 			<%@ include file="confirmDelete.jsp"%>
 		</div>
 
-		<button class="pure-button pure-button-primary" onclick="addFlight()">
+		<button class="pure-button" onclick="addFlight()">
 			<i class="fa fa-plus"></i> Add Flight
 		</button>
-		<table class="pure-table pure-table-bordered pure-table-striped" style="width:100%;">
+		<P>
+		<table class="pure-table" style="width:100%;">
 			 <thead>
-				 <tr>
-				 	 
+				 <tr>			 	 
 					 <th>Airplane</th>	
 					 <th>Departure</th>	
 					 <th>Arrival</th>	
 					 <th>Dep. Date Hour</th>	
 					 <th>Arr. Date Hour</th>	
-					 <th>ID</th>		
+					 <th width="19%"></th>		
 				 </tr>
 			 </thead>
 			 <tbody>
@@ -64,7 +69,7 @@
 					 <td><%=f.getDepartureDateHour()%></td>
 					 <td><%=f.getArrivalDateHour()%></td>
 					 <td>					 
-					 <button class="pure-button pure-button-primary" 
+					 <button class="pure-button grid" 
 					 		 onclick="editFlight(<%=f.getId()%>,
 					 							 '<%=f.getAirplaneType()%>',
 					 							 '<%=f.getDepartureCity()%>',
@@ -75,7 +80,7 @@
 						<i class="fa fa-pencil"></i> Edit
 					 </button>
 					 			 
-					 <button class="pure-button pure-button-primary" 
+					 <button class="pure-button grid" 
 					 		 onclick="deleteFlight(<%=f.getId()%>)">
 						<i class="fa fa-cog"></i> Delete
 					 </button>
@@ -84,6 +89,7 @@
 				 <%}%>
 			 <tbody>
 		 </table>		
-		 <p><a href="logout.jsp" class="pure-button pure-button-primary" >Logout</a>
+		 <p><a href="logout.jsp" class="pure-button" >Logout</a>
+</div>
 </body>
 </html>

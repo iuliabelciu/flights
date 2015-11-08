@@ -1,44 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+ <link rel="stylesheet" type="text/css" href="css/flights.css" />
+ <script src='<c:url value="/js/lib/jquery-1.10.2.js"/>'> </script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <title>Login Page</title>
-
-
+<style>
+.pure-button{
+    color: #FFF; /* rgba not supported (IE 8) */
+    color: #FFF; /* rgba supported */
+    *color: #444; /* IE 6 & 7 */
+    border: 1px solid #999;  /*IE 6/7/8*/
+    border: none rgba(0, 0, 0, 0);  /*IE9 + everything else*/
+    background-color: #FFB732;
+    }
+</style>
 </head>
-
-<body>
-
-<form method="post" action="LoginServlet">
-<div style="padding: 100px 0 0 250px;">
-
-
-<div id="login-box">
-
-<H2>Login Page</H2>
-Please provide your credential to use this website
-<br />
-<br />
-<div id="login-box-name" style="margin-top:20px;">User Id:</div>
-<div id="login-box-field" style="margin-top:20px;">
-<input name="username" class="form-login" title="Username" value="" size="30" maxlength="50" />
-</div>
-<div id="login-box-name">Password:</div>
-<div id="login-box-field">
-<input name="password" type="password" class="form-login" title="Password" value="" size="30" maxlength="48" />
-</div>
-<br />
-<span class="login-box-options">
-New User?  <a href="register.jsp" style="margin-left:30px;">Register Here</a>
-</span>
-<br />
-<br />
-<input style="margin-left:100px;" type="submit" value="Login" />
-</div>
-
-</div>
-
-</form>
-
+<body style="background-color: transparent;">
+       <div id="log">
+              <div class="modal-dialog">
+                     <div class="modal-content">
+                          
+                           <!-- Header Section -->
+                           <div class="modal-header">
+                                  <h2>Please sign in</h2>
+                           </div>                          
+                           <!-- Body Section -->
+                           <div class="modal-body">
+                                  <form class="form col-md-12" method="post" action="LoginServlet">
+                                         <input name="username" type="text" class="form-control input-lg" placeholder="Username" required autofocus />
+                                         <input name="password" type="password" class="form-control input-lg" placeholder="Password" required />
+                                         <br>                                        
+                                         <button class="pure-button btn-lg btn-block">Sign In</button>
+                                  </form>
+                           </div>                          
+                           <!-- Footer Section -->
+                           <div class="modal-footer">
+                                  <div class="col-md-12">                                      
+                                  </div>
+                           </div>
+                     </div>
+              </div>
+       </div>
 </body>
 </html>
