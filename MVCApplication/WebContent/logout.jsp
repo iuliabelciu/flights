@@ -9,10 +9,7 @@
 		 session.removeAttribute("username");
 		 session.removeAttribute("password");
 		 session.invalidate();
+		 response.sendRedirect("http://localhost:8080/flights/login.jsp");
 	 %>
-	 <div id="log">
-	 <h1>You have successfully logged out</h1>
-	 To login again <a href="login.jsp">click here</a>.
-	 </div>
 </body>
 </html>

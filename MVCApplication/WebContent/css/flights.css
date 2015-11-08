@@ -10,9 +10,10 @@ html {
 	margin: 4%;
 	padding: 2%; 
 	background: white;
+	border-radius: 6px;
 }
 .grid{
-	width: 100px;
+	width: 90px;
 }
 .modal-footer {
        border-top: 0px;

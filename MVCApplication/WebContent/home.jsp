@@ -28,10 +28,8 @@
 				 User user = (User) session.getAttribute("user");
 			 	%>
 			 <% if (user!=null) { %>
-			<h2>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h2>	
-			<% } else { %>
-			<% response.sendRedirect("http://localhost:8080/MVCApplication/login.jsp");%>
-			<% } %>	
+			<h1>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h1>	
+			<% } else { response.sendRedirect("http://localhost:8080/flights/login.jsp");} %>	
 			 
 		<p>
 		<div id="flightDialog" style="display: none;">
