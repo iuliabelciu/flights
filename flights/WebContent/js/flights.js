@@ -166,7 +166,10 @@ $(document).ready(function() {
 			$(this).dialog('close');
 		}
 	});
+	
 	initializeDatePicker();
-
 	$('.datetimeinput').datetimepicker();
+	
+
+
 });

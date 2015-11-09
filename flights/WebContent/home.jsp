@@ -22,7 +22,14 @@
 	 <script src='<c:url value="/js/lib/jquery.ui.datepicker.js"/>'> </script>
 	 <script src='<c:url value="/js/lib/jquery-ui-timepicker-addon.js"/>'> </script>
 	 <script src='<c:url value="/js/flights.js"/>'> </script> 
-	 <title>Admin Page</title>	
+	 <c:choose>
+	 <c:when test= "${user.getType()=='admin'}">
+	 <title>Admin Page</title>
+	 </c:when>
+	 <c:otherwise>
+	 <title>User Page</title>
+	 </c:otherwise>
+	 </c:choose>	
 </head>
 <body>
 	<div id="page">	 
@@ -49,6 +56,7 @@
 		<div id="confirmDeleteCity" style="display: none;">
 			<%@ include file="confirmDeleteCity.jsp"%>
 		</div>
+		<h2>List of flights:</h2>
 		<c:if test= "${user.getType()=='admin'}">
 		<button class="pure-button" onclick="addFlight()">
 			<i class="fa fa-plus"></i> Add Flight
@@ -58,7 +66,7 @@
 		<table class="pure-table pure-table-striped" style="width:100%;">
 			 <thead>
 				 <tr>			 	 
-					 <th>Airplane</th>	
+					 <th height="46px">Airplane</th>	
 					 <th>Departure</th>	
 					 <th>Arrival</th>	
 					 <th>Departure Date Hour</th>	
@@ -75,7 +83,7 @@
 					 for (Flight f : flights) {
 				 %>
 				 <tr>
-					 <td><%=f.getAirplaneType()%></td>
+					 <td height="46px"><%=f.getAirplaneType()%></td>
 					 <td><%=f.getDepartureCity()%></td>
 					 <td><%=f.getArrivalCity()%></td>	
 					 <td><%=f.getDepartureDateHour()%></td>
@@ -107,15 +115,17 @@
 			 <tbody>
 		 </table>
 		 <br>	
+		<h2>List of cities:</h2>
 		 <c:if test= "${user.getType()=='admin'}">
 		<button class="pure-button" onclick="addCity()">
 			<i class="fa fa-plus"></i> Add City
 		</button>
 		</c:if>
+		
 		<table class="pure-table pure-table-striped pure-table-bordered" style="width:100%;">
 			 <thead>
 				 <tr>			 	 
-					 <th>Name</th>	
+					 <th height="46px">Name</th>	
 					 <th>Latitude</th>	
 					 <th>Longitude</th>	
 					 <th width="20%"></th>		
@@ -151,14 +161,14 @@
 					 </c:when>
 					    <c:otherwise>
     					     
-					 <button class="pure-button grid" 
+					 <button class="pure-button grid" style="width:210px;" 
 					 		 onclick="getTimeZone('<%=c.getId()%>',
 					 		 					'<%=c.getName()%>',
 					 							 '<%=c.getLatitude()%>',
 					 							 '<%=c.getLongitude()%>',
 					 							 'timezone'
 					 							 )">
-						<i class="fa fa-cog"></i> Local
+						<i class="fa fa-map-marker"></i> Local
 					 </button>
     					</c:otherwise>
 					 </c:choose>
@@ -172,7 +182,7 @@
 		 <h2>For <c:out value="${country}"></c:out> the time is: <c:out value="${timezone}"></c:out></h2>
 		</c:if>
 		<br>
-		 <a href="logout.jsp" class="pure-button" >Logout</a>
+		 <a href="logout.jsp" class="pure-button" ><i class="fa fa-lock"></i> Logout</a>
 </div>
 </body>
 </html>

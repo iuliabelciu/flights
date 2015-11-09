@@ -1703,7 +1703,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     font-size: inherit;
     margin: 0;
     overflow: visible; /*to make ths where the title is really long work*/
-    padding: 6px 12px; /* cell padding */
+    padding: 3px 12px; /* cell padding */
 }
 .pure-table td:first-child,
 .pure-table th:first-child {
@@ -1715,6 +1715,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     color: #000;
     text-align: left;
     vertical-align: bottom;
+    font-size: 150%;
 }
 
 /*

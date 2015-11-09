@@ -30,12 +30,15 @@ public class CityServlet extends HttpServlet {
 	 
 	 
 		String id = request.getParameter("id");
+
+		System.out.println(id);
 		String action = request.getParameter("action");
 		CityService cityService = new CityService();
 		
 		City city = new City();
 		
 		if(action.equals("delete")){
+			System.out.println(id);
 			cityService.deleteCity(Integer.parseInt(id));		
 			response.sendRedirect("admin.jsp");
 		}
@@ -88,13 +91,10 @@ public class CityServlet extends HttpServlet {
 		                	 timezone=inputLine;		                	 
 		             }
 		             in.close();
-
 		 			 timezone = timezone.replace("<time>", " ");
 		 			 timezone = timezone.replace("</time>", " ");
-
 		 			 country = country.replace("<countryName>", " ");
 		 			 country = country.replace("</countryName>", " ");
-
 		 			 request.getSession().setAttribute("timezone", timezone);
 		 			 request.getSession().setAttribute("country", country);
 		         }
