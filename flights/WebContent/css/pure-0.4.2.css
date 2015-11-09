@@ -966,8 +966,7 @@ this the same font stack that Normalize.css sets for the `body`.
     font-size: 100%;
     *font-size: 90%; /*IE 6/7 - To reduce IE's oversized button text*/
     *overflow: visible; /*IE 6/7 - Because of IE's overly large left/right padding on buttons */
-    padding: 0.5em 1em;
-    color: #FFF; /* rgba not supported (IE 8) */
+    padding: 0.5em 1em;    color: #FFF; /* rgba not supported (IE 8) */
     color: #FFF; /* rgba supported */
     *color: #444; /* IE 6 & 7 */
     border: 1px solid #999;  /*IE 6/7/8*/
@@ -1687,6 +1686,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
+    border: 1px solid #cbcbcb;
 }
 
 .pure-table caption {
@@ -1698,7 +1698,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
 .pure-table td,
 .pure-table th {
-    
+    border-left: 1px solid #cbcbcb;/*  inner column border */
     border-width: 0 0 0 1px;
     font-size: inherit;
     margin: 0;
@@ -1711,12 +1711,10 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 .pure-table thead {
-    /*background: #D5D2E2;*/
+    background: #e0e0e0;
     color: #000;
     text-align: left;
     vertical-align: bottom;
-    height: 40px;
-    
 }
 
 /*

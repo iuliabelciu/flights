@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.service.RegisterService;
+import com.service.FlightService;
 
 import com.model.Flight;
 
 
-public class RegisterServlet extends HttpServlet {
+public class FlightServlet extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -28,10 +28,10 @@ public class RegisterServlet extends HttpServlet {
 	 
 		String id = request.getParameter("id");
 		String action = request.getParameter("action");
-		RegisterService registerService = new RegisterService();
+		FlightService flightService = new FlightService();
 		
 		if(action.equals("delete")){
-			registerService.deleteFlight(Integer.parseInt(id));		
+			flightService.deleteFlight(Integer.parseInt(id));		
 			response.sendRedirect("admin.jsp");
 		}
 			else{
@@ -47,8 +47,13 @@ public class RegisterServlet extends HttpServlet {
 			System.out.println(arrivalTime);
 			departureTime = departureTime.replace("T", " ");
 			arrivalTime = arrivalTime.replace("T", " ");
+			if(action.equals("edit")){
+			departureTime = departureTime.substring(0, departureTime.length() - 3);
+			arrivalTime = arrivalTime.substring(0, arrivalTime.length() - 3);
+			}
 			System.out.println(arrivalTime);
 			DateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			
 			try {
 				departureDate = formatterDate.parse(departureTime);
 				arrivalDate = formatterDate.parse(arrivalTime);
@@ -67,22 +72,15 @@ public class RegisterServlet extends HttpServlet {
 			flight.setDepartureDateHour(departureDate);		
 			
 			if(action.equals("add"))
-				registerService.saveFlight(flight);		
+				flightService.saveFlight(flight);		
 			else if(action.equals("update"))
-				registerService.updateFlight(flight);				 
-			response.sendRedirect("admin.jsp");
+				flightService.updateFlight(flight);				 
+			response.sendRedirect("home.jsp");
 		}
 	}
 
-	public void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-		System.out.println("o intrat in delete");
-	}
-	
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-		
-		System.out.println("o intrat in get");
 	}
 }

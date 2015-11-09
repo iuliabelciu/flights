@@ -68,10 +68,5 @@ public class Flight implements Serializable {
 	public void setArrivalDateHour(Date arrivalDateHour) {
 		this.arrivalDateHour = arrivalDateHour;
 	}
-	@Override
-	public String toString() {
-		return "Flight\n		id=" + id + "\n		airplaneType=" + airplaneType + "\n		departureCity=" + departureCity + "\n		departureDateHour=" + departureDateHour
-				 + "\n		departureDateHour=" + departureDateHour + "\n		arrivalDateHour=" + arrivalDateHour;
-	}
 
 }

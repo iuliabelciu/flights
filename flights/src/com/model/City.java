@@ -57,4 +57,5 @@ public class City implements Serializable {
 	public String toString() {
 		return "City\n		id=" + id + "\n		name=" + name + "\n		longitude=" + longitude + "\n		latitude=" + latitude;
 	}
+
 }

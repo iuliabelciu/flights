@@ -1,13 +1,20 @@
 package com.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
+import com.model.Flight;
 import com.model.User;
 import com.service.LoginService;
+import com.service.FlightService;
 
 
 public class LoginServlet extends HttpServlet {
@@ -20,14 +27,15 @@ public class LoginServlet extends HttpServlet {
 	 boolean result = loginService.authenticateUser(username, password);
 	 User user = loginService.getUserByUsername(username);
 	 if(result == true){
+		 /*FlightService regService = new FlightService();
+		 List<Flight> flights = regService.getListOfFlights();
+		 request.getSession().setAttribute("flights", flights);*/
 		 request.getSession().setAttribute("user", user);	
-		 if(user.getType().equals("admin"))
-			 response.sendRedirect("admin.jsp");
-		 else
-			 response.sendRedirect("user.jsp");
+	     response.sendRedirect("home.jsp");
 	 }
 	 else{
-		 response.sendRedirect("error.jsp");
+		 request.getSession().setAttribute("message", "Login was unsuccessful");
+		 response.sendRedirect("login.jsp");
 	 }
 }
 

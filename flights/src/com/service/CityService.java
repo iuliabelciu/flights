@@ -1,21 +1,25 @@
 package com.service;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.hibernate.util.HibernateUtil;
+import com.model.City;
 import com.model.Flight;
-public class RegisterService {
+public class CityService {
 
-public boolean flightExists(Flight flight){
+public boolean cityExists(City city){
 	 Session session = HibernateUtil.openSession();
 	 boolean result = false;
 	 Transaction tx = null;
 	 try{
 		 tx = session.getTransaction();
 		 tx.begin();
-		 Query query = session.createQuery("from Flight where id='"+flight.getId()+"'");
-		 Flight f = (Flight)query.uniqueResult();
+		 Query query = session.createQuery("from City where id='"+city.getId()+"'");
+		 City f = (City)query.uniqueResult();
 		 tx.commit();
 		 if(f!=null) result = true;
 	 }catch(Exception ex){
@@ -28,16 +32,15 @@ public boolean flightExists(Flight flight){
 	 return result;
 }
 
-public boolean saveFlight(Flight flight) {
+public boolean saveCity(City city) {
 	 Session session = HibernateUtil.openSession();
-	 int flightId = -1;
-	 if(flightExists(flight)) return false;	
+	 int cityId = -1;	
 	 Transaction tx = null;	
 	 try {
 		 tx = session.getTransaction();
 		 tx.begin();
-		 flightId = (Integer) session.save(flight);
-		 flight.setId(flightId);
+		 cityId = (Integer) session.save(city);
+		 city.setId(cityId);
 		 tx.commit();
 	 } catch (Exception e) {
 		 if (tx != null) {
@@ -50,13 +53,13 @@ public boolean saveFlight(Flight flight) {
 	 return true;
 }
 
-public boolean updateFlight(Flight flight) {
+public boolean updateCity(City city) {
 	 Session session = HibernateUtil.openSession();
 	 Transaction tx = null;	
 	 try {
 		 tx = session.getTransaction();
 		 tx.begin();
-		 session.update(flight);
+		 session.update(city);
 		 tx.commit();
 	 } catch (Exception e) {
 		 if (tx != null) {
@@ -69,13 +72,13 @@ public boolean updateFlight(Flight flight) {
 	 return true;
 }
 
-public boolean deleteFlight(int id) {
+public boolean deleteCity(int id) {
 	 Session session = HibernateUtil.openSession();
 	 Transaction tx = null;	
 	 try {
 		 tx = session.getTransaction();
 		 tx.begin();
-     	 Query query = session.createQuery("DELETE Flight WHERE id = '"+id+"'");
+     	 Query query = session.createQuery("DELETE City WHERE id = '"+id+"'");
 		 query.executeUpdate();
          tx.commit();
 	 } catch (Exception e) {
@@ -89,15 +92,15 @@ public boolean deleteFlight(int id) {
 	 return true;
 }
 
-public Flight getFlightById(int id) {
+public City getCityById(int id) {
 	 Session session = HibernateUtil.openSession();
 	 Transaction tx = null;
-	 Flight f = new Flight();
+	 City f = new City();
 	 try{
 		 tx = session.getTransaction();
 		 tx.begin();
-		 Query query = session.createQuery("from Flight where id='"+id+"'");
-		 f = (Flight)query.uniqueResult();
+		 Query query = session.createQuery("from City where id='"+id+"'");
+		 f = (City)query.uniqueResult();
 		 tx.commit();
 		 
 	 }catch(Exception ex){
@@ -108,5 +111,24 @@ public Flight getFlightById(int id) {
 		 session.close();
 	 }
 	 return f;
+}
+public List<City> getListOfCities(){
+    List<City> list = new ArrayList<City>();
+    Session session = HibernateUtil.openSession();
+    Transaction tx = null;        
+    try {
+        tx = session.getTransaction();
+        tx.begin();
+        list = session.createQuery("from City").list();                        
+        tx.commit();
+    } catch (Exception e) {
+        if (tx != null) {
+            tx.rollback();
+        }
+        e.printStackTrace();
+    } finally {
+        session.close();
+    }
+    return list;
 }
 }

@@ -11,17 +11,26 @@
     <servlet-class>com.controller.LoginServlet</servlet-class>
   </servlet>
   <servlet>
-    <display-name>RegisterServlet</display-name>
-    <servlet-name>RegisterServlet</servlet-name>
-    <servlet-class>com.controller.RegisterServlet</servlet-class>
+    <display-name>FlightServlet</display-name>
+    <servlet-name>FlightServlet</servlet-name>
+    <servlet-class>com.controller.FlightServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <display-name>CityServlet</display-name>
+    <servlet-name>CityServlet</servlet-name>
+    <servlet-class>com.controller.CityServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/LoginServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>RegisterServlet</servlet-name>
-    <url-pattern>/RegisterServlet</url-pattern>
+    <servlet-name>FlightServlet</servlet-name>
+    <url-pattern>/FlightServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CityServlet</servlet-name>
+    <url-pattern>/CityServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>login.jsp</welcome-file>

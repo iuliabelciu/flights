@@ -14,6 +14,9 @@
     border: none rgba(0, 0, 0, 0);  /*IE9 + everything else*/
     background-color: #FFB732;
     }
+#err{
+	color:red;
+}
 </style>
 </head>
 <body style="background-color: transparent;">
@@ -23,7 +26,7 @@
                            <!-- Header Section -->
                            <div class="modal-header">
                                   <h2>Please sign in</h2>
-                                  
+                                  <h4 id="err"><c:out value="${message}"></c:out></h4>
                            </div>                          
                            <!-- Body Section -->
                            <div class="modal-body">

@@ -1,10 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.List"%>
-<%@page import="com.service.AdminService"%>
+<%@page import="com.service.CityService"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.model.User"%>
+<%@page import="com.model.City"%>
 <%@page import="com.model.Flight"%>
 <%@page import="java.text.DateFormat"%>
+<%@page import="com.service.FlightService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,26 +26,29 @@
 </head>
 <body>
 	<div id="page">	 
-			 
-			 <%
-				 User user = (User) session.getAttribute("user");
-			 	%>
-			 <% if (user!=null && user.getType().equals("admin")) { %>
+			
+			 <% User user = (User) session.getAttribute("user");%>
 			<h1>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h1>	
-			<% } else { response.sendRedirect("http://localhost:8080/MVCApplication/user.jsp");} %>	
 		<p>
 		<div id="flightDialog" style="display: none;">
 			<%@ include file="flightForm.jsp"%>
 		</div>
+		<div id="cityDialog" style="display: none;">
+			<%@ include file="cityForm.jsp"%>
+		</div>
 		<div id="confirmDeleteDialog" style="display: none;">
 			<%@ include file="confirmDelete.jsp"%>
 		</div>
-
+		<div id="confirmDeleteCity" style="display: none;">
+			<%@ include file="confirmDeleteCity.jsp"%>
+		</div>
+		<c:if test= "${user.getType()=='admin'}">
 		<button class="pure-button" onclick="addFlight()">
 			<i class="fa fa-plus"></i> Add Flight
 		</button>
-		<P>
-		<table class="pure-table" style="width:100%;">
+		</c:if>
+	
+		<table class="pure-table pure-table-striped" style="width:100%;">
 			 <thead>
 				 <tr>			 	 
 					 <th>Airplane</th>	
@@ -51,14 +56,14 @@
 					 <th>Arrival</th>	
 					 <th>Departure Date Hour</th>	
 					 <th>Arrival Date Hour</th>	
-					 <th width="19%"></th>		
+					 <th width="20%;"></th>		
 				 </tr>
 			 </thead>
 			 <tbody>
 				 <%
-					 AdminService adminService = new AdminService();
-					 List<Flight> list = adminService.getListOfFlights();
-					 for (Flight f : list) {
+					 FlightService flightService = new FlightService();
+					 List<Flight> flights = flightService.getListOfFlights();
+					 for (Flight f : flights) {
 				 %>
 				 <tr>
 					 <td><%=f.getAirplaneType()%></td>
@@ -66,7 +71,9 @@
 					 <td><%=f.getArrivalCity()%></td>	
 					 <td><%=f.getDepartureDateHour()%></td>
 					 <td><%=f.getArrivalDateHour()%></td>
-					 <td>					 
+					 <td>
+					 <c:choose>	
+					 <c:when test= "${user.getType()=='admin'}">				 
 					 <button class="pure-button grid" 
 					 		 onclick="editFlight(<%=f.getId()%>,
 					 							 '<%=f.getAirplaneType()%>',
@@ -82,12 +89,77 @@
 					 		 onclick="deleteFlight(<%=f.getId()%>)">
 						<i class="fa fa-cog"></i> Delete
 					 </button>
+					 </c:when>
+					 <c:otherwise>		 
+					 			 
+					 <button class="pure-button grid" 
+					 		 onclick="deleteFlight(<%=f.getId()%>)">
+						<i class="fa fa-cog"></i> Details
+					 </button>
+					 </c:otherwise>
+					 </c:choose>
 					 </td>	
 				 </tr>
 				 <%}%>
 			 <tbody>
-		 </table>		
-		 <p><a href="logout.jsp" class="pure-button" >Logout</a>
+		 </table>
+		 <br>	
+		 <c:if test= "${user.getType()=='admin'}">
+		<button class="pure-button" onclick="addCity()">
+			<i class="fa fa-plus"></i> Add City
+		</button>
+		</c:if>
+		<table class="pure-table pure-table-striped pure-table-bordered" style="width:100%;">
+			 <thead>
+				 <tr>			 	 
+					 <th>Name</th>	
+					 <th>Latitude</th>	
+					 <th>Longitude</th>	
+					 <th width="20%"></th>		
+				 </tr>
+			 </thead>
+			 <tbody>
+				 <%
+				 	 CityService cityService = new CityService();
+					 List<City> city = cityService.getListOfCities();
+					 for (City c : city) {
+				 %>
+				 <tr>
+					 <td><%=c.getName()%></td>
+					 <td><%=c.getLatitude()%></td>
+					 <td><%=c.getLongitude()%></td>	
+					 <td>		
+					 <c:choose>
+					 <c:when test= "${user.getType()=='admin'}">			 
+					 <button class="pure-button grid" 
+					 		 onclick="editCity('<%=c.getName()%>',
+					 							 '<%=c.getLatitude()%>',
+					 							 '<%=c.getLongitude()%>'
+					 							 )">
+						<i class="fa fa-pencil"></i> Edit
+					 </button>
+					 			 
+					 <button class="pure-button grid" 
+					 		 onclick="deleteCity(<%=c.getId()%>)">
+						<i class="fa fa-cog"></i> Delete
+					 </button>
+					 </c:when>
+					    <c:otherwise>
+    					     
+					 <button class="pure-button grid" 
+					 		 onclick="getLocalTime(<%=c.getId()%>)">
+						<i class="fa fa-cog"></i> Local
+					 </button>
+    					</c:otherwise>
+					 </c:choose>
+			
+					 </td>	
+				 </tr>
+				 <%}%>
+			 <tbody>
+		 </table>	
+		<br>
+		 <a href="logout.jsp" class="pure-button" >Logout</a>
 </div>
 </body>
 </html>

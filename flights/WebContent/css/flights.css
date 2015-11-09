@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 html { 
-  background: url(night-sky-18397.jpg) no-repeat center center fixed; 
+  background: url(images/night-sky-18397.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -13,7 +13,7 @@ html {
 	border-radius: 6px;
 }
 .grid{
-	width: 45%;
+	width: 100px;
 }
 .modal-footer {
        border-top: 0px;

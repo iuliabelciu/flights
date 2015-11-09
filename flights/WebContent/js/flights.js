@@ -10,6 +10,12 @@ function editFlight(id, airplane_type, departure_city, arrival_city, departure_t
 	$('#airplane_type').val(airplane_type);
 	$('#arrival_city').val(arrival_city);
 	$('#departure_city').val(departure_city);
+	departure_time=(departure_time).replace(".0","");
+	arrival_time=(arrival_time).replace(".0","");
+	departure_time=(departure_time).replace("-","/");
+	arrival_time=(arrival_time).replace("-","/");
+	departure_time=(departure_time).replace("-","/");
+	arrival_time=(arrival_time).replace("-","/");
 	$('#departure_time').val(departure_time);
 	$('#arrival_time').val(arrival_time);
 }
@@ -19,10 +25,30 @@ function deleteFlight(id){
 	$('#confirmDeleteDialog').dialog('open');	
 	$('#idd').val(id);
 }
+function addCity() {
+	$('#cityDialog').dialog("option", "title", 'Add City');
+	$('#cityDialog').dialog('open');
+}
+
+function editCity(city) {
+	city.getId();
+	$('#cityDialog').dialog("option", "title", 'Edit City');
+	$('#cityDialog').dialog('open');	
+	$('#id').val(id);
+	$('#name').val(name);
+	$('#longitude').val(longitude);
+	$('#latitude').val(latitude);
+}
+
+function deleteCity(id){
+	$('#confirmDeleteDialog').dialog("option", "title", 'Delete City');
+	$('#confirmDeleteDialog').dialog('open');	
+	$('#idd').val(id);
+}
 
 function initializeDatePicker() {
 	$(".datepicker").datepicker({
-		dateFormat : "yyyy-dd-mm",
+		dateFormat : "yyyy/dd/mm",
 		changeMonth : true,
 		changeYear : true,
 		showButtonPanel : true
@@ -59,6 +85,29 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#cityDialog').dialog({
+
+		autoOpen : false,
+		position : 'center',
+		modal : true,
+		resizable : false,
+		width : 600,
+		buttons : {
+			"Save" : function() {
+				$('#cityForm').submit();
+			},
+			"Cancel" : function() {
+				$(this).dialog('close');
+			}
+		},
+		close : function() {
+
+			resetDialog($('#cityForm'));
+
+			$(this).dialog('close');
+		}
+	});
+
 	$('#confirmDeleteDialog').dialog({
 
 		autoOpen : false,
@@ -77,6 +126,28 @@ $(document).ready(function() {
 		close : function() {
 
 			resetDialog($('#confirmDelete'));
+
+			$(this).dialog('close');
+		}
+	});
+	$('#confirmDeleteCity').dialog({
+
+		autoOpen : false,
+		position : 'center',
+		modal : true,
+		resizable : false,
+		width : 600,
+		buttons : {
+			"Delete" : function() {
+				$('#confirmDeleteCity').submit();
+			},
+			"Cancel" : function() {
+				$(this).dialog('close');
+			}
+		},
+		close : function() {
+
+			resetDialog($('#confirmDeleteCity'));
 
 			$(this).dialog('close');
 		}
