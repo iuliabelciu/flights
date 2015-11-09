@@ -23,27 +23,40 @@ function editFlight(id, airplane_type, departure_city, arrival_city, departure_t
 function deleteFlight(id){
 	$('#confirmDeleteDialog').dialog("option", "title", 'Delete Flight');
 	$('#confirmDeleteDialog').dialog('open');	
-	$('#idd').val(id);
+	$('#iddelete').val(id);
 }
 function addCity() {
 	$('#cityDialog').dialog("option", "title", 'Add City');
 	$('#cityDialog').dialog('open');
 }
 
-function editCity(city) {
-	city.getId();
+function editCity(id, name, longitude, latitude, action) {
 	$('#cityDialog').dialog("option", "title", 'Edit City');
 	$('#cityDialog').dialog('open');	
-	$('#id').val(id);
+	$('#idd').val(id);
 	$('#name').val(name);
 	$('#longitude').val(longitude);
 	$('#latitude').val(latitude);
+	$('#action').val(action);
+}
+
+function getTimeZone(id, name, latitude, longitude, action) {
+	$('#cityDialog').dialog("option", "title", 'Time zone for city:');
+	$('#cityDialog').dialog('open');	
+	$('#idd').val(id);
+	$('#name').val(name);
+	$('#name').prop('readonly', true);
+	$('#longitude').val(longitude);
+	$('#longitude').prop('readonly', true);
+	$('#latitude').val(latitude);
+	$('#latitude').prop('readonly', true);
+	$('#action').val(action);
 }
 
 function deleteCity(id){
 	$('#confirmDeleteDialog').dialog("option", "title", 'Delete City');
 	$('#confirmDeleteDialog').dialog('open');	
-	$('#idd').val(id);
+	$('#iddelete').val(id);
 }
 
 function initializeDatePicker() {
@@ -72,6 +85,7 @@ $(document).ready(function() {
 		buttons : {
 			"Save" : function() {
 				$('#flightForm').submit();
+				
 			},
 			"Cancel" : function() {
 				$(this).dialog('close');

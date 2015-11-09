@@ -1,6 +1,14 @@
 package com.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +39,9 @@ public class CityServlet extends HttpServlet {
 			cityService.deleteCity(Integer.parseInt(id));		
 			response.sendRedirect("admin.jsp");
 		}
-			else{
-			action = id==""?"add":"update";
+		else{
+			if(!(action.equals("timezone")))
+				action = id==""?"add":"update";
 			String name = request.getParameter("name");
 			String longitude = request.getParameter("longitude");
 			String latitude = request.getParameter("latitude");		
@@ -53,58 +62,50 @@ public class CityServlet extends HttpServlet {
 			if(action.equals("add"))
 				cityService.saveCity(city);		
 			else if(action.equals("update"))
-				cityService.updateCity(city);				 
-			response.sendRedirect("admin.jsp");
+				cityService.updateCity(city);	
+			else if(action.equals("timezone"))
+			{
+				String country = "";
+				String timezone = "";
+				try
+		         {
+		             String completeUrl = "http://api.geonames.org/timezone?";
+		             completeUrl += "lat=" + city.getLatitude() + "&lng=" + city.getLongitude() + "&username=iuliabelciu";
+		             System.out.println(completeUrl);
+		             URL yahoo = new URL(completeUrl);
+		             URLConnection yc = yahoo.openConnection();
+		             BufferedReader in = new BufferedReader(
+		                                     new InputStreamReader(
+		                                     yc.getInputStream()));
+		             String inputLine;
+		             int counter = 0;
+		             while ((inputLine = in.readLine()) != null) {
+		            	 counter++;
+		                 System.out.println(inputLine);
+		                 if (counter == 5)
+		                	 country=inputLine;
+		                 if (counter == 12)
+		                	 timezone=inputLine;		                	 
+		             }
+		             in.close();
+
+		 			 timezone = timezone.replace("<time>", " ");
+		 			 timezone = timezone.replace("</time>", " ");
+
+		 			 country = country.replace("<countryName>", " ");
+		 			 country = country.replace("</countryName>", " ");
+
+		 			 request.getSession().setAttribute("timezone", timezone);
+		 			 request.getSession().setAttribute("country", country);
+		         }
+				finally
+				{
+				}	
+			}
+			
+			response.sendRedirect("home.jsp");
 		}
-	}/*
-	 public void requestTimeZone()
-     {
-         String responseFromServer = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><TimeZoneResponse><status>OK</status> <raw_offset>7200.0000000</raw_offset><dst_offset>0.0000000</dst_offset> <time_zone_id>Europe/Bucharest</time_zone_id> <time_zone_name>Eastern European Standard Time</time_zone_name></TimeZoneResponse>";
-         
-         try
-         {
-             String completeUrl = "http://api.geonames.org/timezone?lat=45.01&lng=20.2&username=demo";
-             completeUrl += "latitude=" + address1.Latitude + "&longitude=" + address1.Longitude;
-
-
-             // Create a request for the URL.         
-             WebRequest request = WebRequest.Create(completeUrl);
-
-             // If required by the server, set the credentials.
-             request.Credentials = CredentialCache.DefaultCredentials;
-
-
-             // If you have a proxy configured.
-             //WebProxy proxyObject = new WebProxy("<a href="http://proxy.com/">http://proxy.com/</a>", true);
-             //request.Proxy = proxyObject;
-
-
-             //Get the response.
-             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-             // Get the stream containing content returned by the server.
-             Stream dataStream = response.GetResponseStream();
-
-
-             // Open the stream using a StreamReader for easy access.
-             StreamReader reader = new StreamReader(dataStream);
-             // Read the content.
-             responseFromServer = reader.ReadToEnd();
-
-
-
-             // Cleanup the streams and the response.
-
-             reader.Close();
-             dataStream.Close();
-             response.Close();
-         }
-         catch (Exception e)
-         {//TODO
-         }
-         tz = parse.processXML(responseFromServer);
-     }
+	}
+	
+     
  }
-*/
-
-}

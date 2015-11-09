@@ -27,14 +27,11 @@ public class LoginServlet extends HttpServlet {
 	 boolean result = loginService.authenticateUser(username, password);
 	 User user = loginService.getUserByUsername(username);
 	 if(result == true){
-		 /*FlightService regService = new FlightService();
-		 List<Flight> flights = regService.getListOfFlights();
-		 request.getSession().setAttribute("flights", flights);*/
 		 request.getSession().setAttribute("user", user);	
 	     response.sendRedirect("home.jsp");
 	 }
 	 else{
-		 request.getSession().setAttribute("message", "Login was unsuccessful");
+		 request.getSession().setAttribute("message", "Login was unsuccessful!");
 		 response.sendRedirect("login.jsp");
 	 }
 }

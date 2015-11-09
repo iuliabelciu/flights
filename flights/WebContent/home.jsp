@@ -28,7 +28,14 @@
 	<div id="page">	 
 			
 			 <% User user = (User) session.getAttribute("user");%>
-			<h1>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h1>	
+			 <%if (user != null) {%>
+			 <h1>Welcome <%= user.getFirstName() + " " + user.getLastName()%></h1>
+			 <% }%>
+			 <%if (!(user != null)) {%>
+			 <%session.setAttribute("message","You do not have access!"); %>	
+			 <%response.sendRedirect("http://localhost:8080/MVCApplication/login.jsp"); %>
+			 <% }%>
+			
 		<p>
 		<div id="flightDialog" style="display: none;">
 			<%@ include file="flightForm.jsp"%>
@@ -56,7 +63,9 @@
 					 <th>Arrival</th>	
 					 <th>Departure Date Hour</th>	
 					 <th>Arrival Date Hour</th>	
+					 <c:if test= "${user.getType()=='admin'}">
 					 <th width="20%;"></th>		
+					 </c:if>
 				 </tr>
 			 </thead>
 			 <tbody>
@@ -71,9 +80,9 @@
 					 <td><%=f.getArrivalCity()%></td>	
 					 <td><%=f.getDepartureDateHour()%></td>
 					 <td><%=f.getArrivalDateHour()%></td>
-					 <td>
 					 <c:choose>	
 					 <c:when test= "${user.getType()=='admin'}">				 
+					 <td>
 					 <button class="pure-button grid" 
 					 		 onclick="editFlight(<%=f.getId()%>,
 					 							 '<%=f.getAirplaneType()%>',
@@ -89,16 +98,10 @@
 					 		 onclick="deleteFlight(<%=f.getId()%>)">
 						<i class="fa fa-cog"></i> Delete
 					 </button>
+					 </td>
 					 </c:when>
-					 <c:otherwise>		 
-					 			 
-					 <button class="pure-button grid" 
-					 		 onclick="deleteFlight(<%=f.getId()%>)">
-						<i class="fa fa-cog"></i> Details
-					 </button>
-					 </c:otherwise>
 					 </c:choose>
-					 </td>	
+					 	
 				 </tr>
 				 <%}%>
 			 <tbody>
@@ -132,9 +135,11 @@
 					 <c:choose>
 					 <c:when test= "${user.getType()=='admin'}">			 
 					 <button class="pure-button grid" 
-					 		 onclick="editCity('<%=c.getName()%>',
+					 		 onclick="editCity('<%=c.getId()%>',
+					 		 					'<%=c.getName()%>',
 					 							 '<%=c.getLatitude()%>',
-					 							 '<%=c.getLongitude()%>'
+					 							 '<%=c.getLongitude()%>',
+					 							 'edit'
 					 							 )">
 						<i class="fa fa-pencil"></i> Edit
 					 </button>
@@ -147,7 +152,12 @@
 					    <c:otherwise>
     					     
 					 <button class="pure-button grid" 
-					 		 onclick="getLocalTime(<%=c.getId()%>)">
+					 		 onclick="getTimeZone('<%=c.getId()%>',
+					 		 					'<%=c.getName()%>',
+					 							 '<%=c.getLatitude()%>',
+					 							 '<%=c.getLongitude()%>',
+					 							 'timezone'
+					 							 )">
 						<i class="fa fa-cog"></i> Local
 					 </button>
     					</c:otherwise>
@@ -157,7 +167,10 @@
 				 </tr>
 				 <%}%>
 			 <tbody>
-		 </table>	
+		 </table>
+		 <c:if test="${not empty country}">
+		 <h2>For <c:out value="${country}"></c:out> the time is: <c:out value="${timezone}"></c:out></h2>
+		</c:if>
 		<br>
 		 <a href="logout.jsp" class="pure-button" >Logout</a>
 </div>

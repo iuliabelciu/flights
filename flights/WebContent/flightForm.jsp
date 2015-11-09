@@ -1,4 +1,4 @@
-<form id="flightForm" action="RegisterServlet" method="POST" class="pure-form pure-form-aligned">
+<form id="flightForm" action="FlightServlet" method="POST" class="pure-form pure-form-aligned">
 	<fieldset>
 		<legend></legend>
 		<div class="pure-control-group">
